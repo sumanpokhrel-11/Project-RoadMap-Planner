@@ -1,3 +1,4 @@
+{%load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,26 +11,90 @@
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Roadmap Planner</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                <a class="nav-link" href="/">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Projects</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Tasks</a>
-                </li>
-            </ul>
+            <div class="collapse navbar-collapse d-lg-flex" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="task">Tasks</a>
+                    </li>
+                </ul>
             </div>
-            <span class="navbar-brand mb-0 h1">Roadmap Planner</span>
+            <!-- <span class="navbar-brand mb-0 h1">Roadmap Planner</span> -->
         </div>
     </nav>
+    <div class="container mt-4">
+        <!-- Teams Section -->
+        <div class="row mb-4">
+            <div class="col">
+                <h3>Teams</h3>
+                <div class="list-group">
+                    {% for team in teams %}
+                    <div class="list-group-item">
+                        <h5>{{ team.name }}</h5>
+                        <p>{{ team.description }}</p>
+                        <small>Created: {{ team.created_at|date:"Y-m-d" }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 
+        <!-- Members Section -->
+        <div class="row mb-4">
+            <div class="col">
+                <h3>Team Members</h3>
+                <div class="list-group">
+                    {% for member in members %}
+                    <div class="list-group-item">
+                        <h5>{{ member.name }}</h5>
+                        <p>{{ member.role }} - {{ member.email }}</p>
+                        <small>Joined: {{ member.joined_at|date:"Y-m-d" }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="row mb-4">
+            <div class="col">
+                <h3>Projects</h3>
+                <div class="list-group">
+                    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#newProjectModal">
+                        Create New Project
+                    </button>
+                    <div class="list-group">
+                        {% for project in projects %}
+                        <a href="{% url 'Roadmap:project_detail' project.id %}" class="list-group-item list-group-item-action">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5>{{ project.title }}</h5>
+                                    <p class="mb-1">{{ project.description }}</p>
+                                    <small>Status: {{ project.status }}</small>
+                                    <small>{{ project.start_date|date:"Y-m-d" }} to {{ project.end_date|date:"Y-m-d" }}</small>
+
+                                </div>
+                                <div>
+                                    <span class="badge bg-primary rounded-pill">{{ project.tasks.count }} tasks</span>
+                                </div>
+                            </div>
+                            <small class="text-muted">{{ project.start_date|date:"Y-m-d" }} to {{ project.end_date|date:"Y-m-d" }}</small>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container mt-4">
         <!-- Task Creation Section -->
         <div class="row mb-4">

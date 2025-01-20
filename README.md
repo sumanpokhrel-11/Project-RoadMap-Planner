@@ -60,7 +60,7 @@ User can access this application offline, not now but we are workin' on it.
 
 - Frontend: [HTML, CSS, JS, BOOTSTRAP]
 - Backend: [DJANGO WEB FRAMEWORK]
-- Database: [SQLite]
+- Database: [SQLite3]
 - CI CD Implemented
 
 ### Contributing
